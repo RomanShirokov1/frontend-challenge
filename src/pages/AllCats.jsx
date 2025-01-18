@@ -1,17 +1,76 @@
 import React from 'react';
-import { Card } from '../components';
+import { Card, Skeleton } from '../components';
+import axios from 'axios';
+import { CAT_SECRET_KEY } from '../secrets';
 
 export function AllCats() {
-  const renderItems = () => {
-    return [...Array(12)].map((i, index) => <Card key={index} />);
+  const [cats, setCats] = React.useState([]);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const [isScrollingInfinite, setIsScrollingInfinite] = React.useState(false);
+  const skeletons = [...new Array(18)].map((_, index) => <Skeleton key={index} />);
+
+  const fetchCats = async (count) => {
+    setIsLoadingMore(true);
+    try {
+      const res = await axios.get(`https://api.thecatapi.com/v1/images/search?limit=${count}`, {
+        headers: {
+          'x-api-key': `${CAT_SECRET_KEY}`, // Замените на ваш ключ API
+        },
+      });
+      setCats((prevCats) => [...prevCats, ...res.data]);
+    } catch (error) {
+      console.error('Error fetching cats:', error);
+    } finally {
+      setIsLoadingMore(false);
+    }
   };
 
-  const [cats, setCats] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  // Запрашиваем начальные фотки
+  React.useEffect(() => {
+    fetchCats(18);
+  }, []);
 
-  React.useEffect(() => {}, []);
+  const loadMoreCats = () => {
+    if (!isLoadingMore) {
+      fetchCats(6); // При скролле запрашиваем еще 6 котов
+      setIsScrollingInfinite(true);
+    }
+  };
 
-  const secret_key = process.env.CAT_SECRET_KEY;
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      isLoadingMore
+    )
+      return;
+    loadMoreCats();
+  };
 
-  return <main className="container">{renderItems()}</main>;
+  React.useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isLoadingMore]);
+
+  return (
+    <>
+      <main className="container">
+        {cats.map((cat) => (
+          <Card key={cat.id} catUrl={cat.url} catId={cat.id} />
+        ))}
+        {isLoadingMore && skeletons}
+      </main>
+
+      <div className="loading_container">
+        {isLoadingMore && <div className="loading">... загружаем котиков ...</div>}
+        {!isScrollingInfinite && !isLoadingMore && cats.length > 0 && (
+          <button onClick={loadMoreCats} className="btn load-more-button">
+            Смотреть дальше
+          </button>
+        )}
+      </div>
+    </>
+  );
 }

@@ -3,6 +3,10 @@
   src: url(fonts/Roboto-Regular.ttf);
 }
 
+* {
+  font-family: 'Roboto';
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -87,3 +91,34 @@ body {
   object-fit: cover
 }
 
+.loading_container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  margin-top: 0px; 
+}
+
+.loading {
+  font-size: 14px; 
+  color: #333; 
+}
+
+.load-more-button {
+  line-height: 21px;
+  letter-spacing: 0.25px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7); 
+  padding: 0 23px;
+  background-color: transparent; 
+  height: 34px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    color: #000; 
+    background-color: rgba(30, 136, 229, 0.15); 
+  }
+}

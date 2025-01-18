@@ -1,0 +1,1 @@
+export { useFetchFavorites } from './useFetchFavorites';

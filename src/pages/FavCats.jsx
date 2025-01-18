@@ -1,10 +1,38 @@
 import React from 'react';
-import { Card } from '../components';
+import { Card, Skeleton } from '../components';
+import { useFetchFavorites } from '../hooks';
+import { useFavoritesStore } from '../store';
 
 export function FavCats() {
-  const renderItems = () => {
-    return [...Array(5)].map((i, index) => <Card key={index} />);
-  };
+  const [isLoading, setIsLoading] = React.useState(true);
+  const { favorites } = useFavoritesStore();
+  const skeletons = [...new Array(18)].map((_, index) => <Skeleton key={index} />);
 
-  return <main>{renderItems()}</main>;
+  // Используем хук для загрузки избранных котиков
+  useFetchFavorites();
+
+  // Устанавливаем состояние загрузки в зависимости от наличия избранных
+  React.useEffect(() => {
+    if (favorites.length > 0) setIsLoading(false);
+  }, [favorites]);
+
+  return (
+    <>
+      <main className="container">
+        {isLoading
+          ? skeletons
+          : favorites.map((fav) => (
+              <Card key={fav.favoriteId} catUrl={fav.imageUrl} catId={fav.imageId} />
+            ))}
+      </main>
+      <div className="loading_container">
+        {isLoading && <div className="loading">... загружаем котиков ...</div>}
+        {favorites.length === 0 && !isLoading && (
+          <div className="no_favorites">
+            Нет избранных котиков. Добавить можно на основной странице!
+          </div>
+        )}
+      </div>
+    </>
+  );
 }

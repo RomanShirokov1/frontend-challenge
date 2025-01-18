@@ -1,5 +1,6 @@
 .idea
 .env
+secrets.js
 node_modules/
 *.tsbuildinfo
 

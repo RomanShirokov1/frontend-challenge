@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <header className="header">
       <div className="header_container">
-        <Link to="/">
+        <Link to="/frontend-challenge">
           <button className={`btn ${activeButton === 'all' ? 'btn_active' : ''} btn_all_cats`}>
             Все котики
           </button>

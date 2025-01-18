@@ -10,7 +10,7 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<AllCats />} />
+          <Route path="/frontend-challenge" element={<AllCats />} />
           <Route path="/favorites" element={<FavCats />} />
         </Routes>
       </div>

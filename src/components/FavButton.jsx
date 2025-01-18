@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { CAT_SECRET_KEY } from '../secrets';
 import favorite from 'src/icons/favorite.svg';
 import favorite_hovered from 'src/icons/favorite_hovered.svg';
 import favorite_clicked from 'src/icons/favorite_clicked.svg';
 import { useFavoritesStore } from '../store';
-import axios from 'axios';
 
 export const FavButton = ({ imageId, imageUrl }) => {
   const { favorites, addFavorite, removeFavorite } = useFavoritesStore();

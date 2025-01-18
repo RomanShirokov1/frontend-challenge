@@ -38,7 +38,7 @@ export const FavButton = ({ imageId, imageUrl }) => {
 
     if (newIsFav) {
       // Если изображение не в избранном, добавляем его
-      const newFavoriteId = Date.now(); // Генерируем уникальный ID для локального хранения
+      const newFavoriteId = Date.now();
       addFavorite(imageId, newFavoriteId, imageUrl);
       setFavoriteId(newFavoriteId);
     } else {

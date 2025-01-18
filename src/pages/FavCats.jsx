@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Skeleton } from '../components';
-import { useFetchFavorites } from '../hooks';
 import { useFavoritesStore } from '../store';
 
 export function FavCats() {
@@ -8,12 +7,8 @@ export function FavCats() {
   const { favorites } = useFavoritesStore();
   const skeletons = [...new Array(18)].map((_, index) => <Skeleton key={index} />);
 
-  // Используем хук для загрузки избранных котиков
-  useFetchFavorites();
-
-  // Устанавливаем состояние загрузки в зависимости от наличия избранных
   React.useEffect(() => {
-    if (favorites.length > 0) setIsLoading(false);
+    setIsLoading(false);
   }, [favorites]);
 
   return (

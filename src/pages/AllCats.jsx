@@ -32,7 +32,7 @@ export function AllCats() {
 
   const loadMoreCats = () => {
     if (!isLoadingMore) {
-      fetchCats(6); // При скролле запрашиваем еще 6 котов
+      fetchCats(12); // При скролле запрашиваем еще 6 котов
       setIsScrollingInfinite(true);
     }
   };

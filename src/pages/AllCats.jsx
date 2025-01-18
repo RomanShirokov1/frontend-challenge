@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Card, Skeleton } from '../components';
 import axios from 'axios';
 import { CAT_SECRET_KEY } from '../secrets';
@@ -37,7 +37,7 @@ export function AllCats() {
     }
   };
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
         document.documentElement.offsetHeight ||
@@ -45,14 +45,14 @@ export function AllCats() {
     )
       return;
     loadMoreCats();
-  };
+  }, [isLoadingMore]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isLoadingMore]);
+  }, [handleScroll]);
 
   return (
     <>
